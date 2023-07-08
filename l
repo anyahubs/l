@@ -1,4 +1,4 @@
-function Notify(titletxt, text, text2, time, image)
+
 	local GUI = Instance.new("ScreenGui")
 	local Main = Instance.new("Frame", GUI)
 	local title = Instance.new("TextLabel", Main)
@@ -58,4 +58,3 @@ function Notify(titletxt, text, text2, time, image)
 	Main:TweenPosition(UDim2.new(1, 5, 0.5, 50), "Out", "Sine", 0.5)
 	wait(0.6)
 	GUI:Destroy();
-end
