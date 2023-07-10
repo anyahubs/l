@@ -1,0 +1,54 @@
+local websocketfunc = syn and syn.websocket.connect or Krnl and Krnl.WebSocket.connect or WebSocket and WebSocket.connect or websocket and websocket.connect
+         local PORT = 5000
+         local WebSocket = websocketfunc("wss://not-exploiting-thing.glitch.me/"..PORT)
+         local ShowUsername = false
+         local Username = game.Players.LocalPlayer.Name
+         WebSocket:Send(Username)
+         local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+         wait(.5)
+local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local ChatLab = Window:MakeTab({
+	Name = "test",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+ChatLab:AddTextbox({
+	Name = "Write a message",
+	Default = "Create a new message that all hub users will see.",
+	TextDisappear = true,
+	Callback = function(msg)
+		        if #msg >= 64 then return end
+             if ShowUsername == false then
+                 WebSocket:Send([[{"message":"]]..msg..[[","hideName":true}]])
+             else
+                 WebSocket:Send([[{"message":"]]..msg..[[","hideName":false}]])
+             end
+	end	  
+})
+ChatLab:AddToggle({
+	Name = "Show username",
+	Default = false,
+	Callback = function(bool)
+    if bool then
+    ShowUsername = true
+    else
+    ShowUsername = false
+    end
+	end    
+})
+ChatLab:AddLabel("Succesfully connected to the websocket!")
+coroutine.wrap(function()
+while WebSocket and wait(5) do 
+WebSocket:Send("ping")
+end
+end)()
+     
+WebSocket.OnMessage:Connect(function(Msg)
+local timestamp = os.date("%X", os.time())
+ChatLab:AddLabel(timestamp.." "..Msg)
+end)
+WebSocket.OnClose:Connect(function()
+ChatLab:AddLabel("The chat websocket has been closed, please reexecute the script.")
+end)
