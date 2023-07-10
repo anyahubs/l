@@ -6,7 +6,7 @@ local websocketfunc = syn and syn.websocket.connect or Krnl and Krnl.WebSocket.c
          WebSocket:Send(Username)
          local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
          wait(.5)
-local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "Sparrow Chat", HidePremium = false, SaveConfig = true, ConfigFolder = "Sparrow", IntroEnabled = false})
 
 local ChatLab = Window:MakeTab({
 	Name = "test",
@@ -28,7 +28,7 @@ ChatLab:AddTextbox({
 	end	  
 })
 ChatLab:AddToggle({
-	Name = "Show username",
+	Name = "Show username?",
 	Default = false,
 	Callback = function(bool)
     if bool then
@@ -38,7 +38,7 @@ ChatLab:AddToggle({
     end
 	end    
 })
-ChatLab:AddLabel("Succesfully connected to the websocket!")
+ChatLab:AddLabel("Succesfully connected to the Anya Server!")
 coroutine.wrap(function()
 while WebSocket and wait(5) do 
 WebSocket:Send("ping")
@@ -50,5 +50,5 @@ local timestamp = os.date("%X", os.time())
 ChatLab:AddLabel(timestamp.." "..Msg)
 end)
 WebSocket.OnClose:Connect(function()
-ChatLab:AddLabel("The chat websocket has been closed, please reexecute the script.")
+ChatLab:AddLabel("Hey this language not supported, please reload this chat!.")
 end)
